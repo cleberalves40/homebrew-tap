@@ -1,0 +1,39 @@
+name: brew test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+  workflow_dispatch:
+  # Toda segunda-feira: uma versão nova do brew ou do ftxui pode quebrar a compilação.
+  schedule:
+    - cron: "0 9 * * 1"
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-latest, ubuntu-latest ]
+
+    steps:
+    # Instala o Homebrew (no Linux) e liga este repositório como o tap cleberalves40/tap.
+    - name: Set up Homebrew
+      uses: Homebrew/actions/setup-homebrew@main
+
+    - name: Trust the tap (brew 6+)
+      run: if brew commands | grep -qx trust; then brew trust --tap cleberalves40/tap; fi
+
+    - name: Style and audit
+      run: |
+        brew style cleberalves40/tap
+        brew audit --strict --online --tap=cleberalves40/tap
+
+    - name: Install from source and test
+      run: |
+        brew install --build-from-source --verbose cleberalves40/tap/octobrew-tui
+        brew test cleberalves40/tap/octobrew-tui
+        brew linkage --test cleberalves40/tap/octobrew-tui
+        octobrew-tui --version
