@@ -3,8 +3,8 @@ class SondaHuawei < Formula
 
   desc "Multi-source latency and loss probe for Huawei VRP edge routers"
   homepage "https://github.com/cleberalves40/Sonda-Huawei"
-  url "https://github.com/cleberalves40/Sonda-Huawei/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "d80d8c07c8847636900877ff175a0e27335e42f1cff8e9f35c72828e9e9c4aab"
+  url "https://github.com/cleberalves40/Sonda-Huawei/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "2faf3e94364abd8fecf6002dee22b6c88b39dc1eece28e79b2114242a3edfba5"
   license "BSD-2-Clause"
   head "https://github.com/cleberalves40/Sonda-Huawei.git", branch: "main"
 
