@@ -59,3 +59,4 @@ class SondaHuawei < Formula
     assert_match "Sonda Huawei", shell_output("#{bin}/sonda-huawei --help")
   end
 end
+

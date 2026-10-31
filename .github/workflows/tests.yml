@@ -4,8 +4,9 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
   workflow_dispatch:
-  # Toda segunda-feira: uma versão nova do brew, do ftxui ou do Qt pode quebrar a compilação.
+  # Toda segunda-feira: uma versão nova do brew, das dependências ou do Qt pode quebrar a instalação.
   schedule:
     - cron: "0 9 * * 1"
 
@@ -17,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ macos-latest, ubuntu-latest ]
-        formula: [ octobrew-tui, octobrew ]
+        formula: [ octobrew-tui, octobrew, sonda-huawei ]
 
     steps:
     # Instala o Homebrew (no Linux) e liga este repositório como o tap cleberalves40/tap.
@@ -36,5 +37,7 @@ jobs:
       run: |
         brew install --build-from-source --verbose cleberalves40/tap/${{ matrix.formula }}
         brew test cleberalves40/tap/${{ matrix.formula }}
-        brew linkage --test cleberalves40/tap/${{ matrix.formula }}
+        if [ "${{ matrix.formula }}" != "sonda-huawei" ]; then
+          brew linkage --test cleberalves40/tap/${{ matrix.formula }}
+        fi
         QT_QPA_PLATFORM=offscreen ${{ matrix.formula }} --version
