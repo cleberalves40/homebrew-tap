@@ -1,5 +1,7 @@
 # cleberalves40/tap
 
+[**Português**](README.md) | [English](README.en.md)
+
 Fórmulas do Homebrew de [cleberalves40](https://github.com/cleberalves40).
 
 | Fórmula | O quê |
